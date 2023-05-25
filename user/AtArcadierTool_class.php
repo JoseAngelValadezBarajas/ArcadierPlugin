@@ -154,6 +154,37 @@ class AtArcadierTool
         $customFieldPrefix = str_replace('-', '', $matches[0]);
         return $customFieldPrefix;
     }
+
+    function getCustomTable($table)
+    {
+        $marketplace = $_COOKIE["marketplace"];
+        $protocol = $_COOKIE["protocol"];
+        $baseUrl = $protocol . '://' . $marketplace;
+        $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
+        $urlTabl = $url .  $table . '/';
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, $urlTabl);
+        curl_setopt($curl, CURLOPT_HEADER, 0); 
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+
+        $response = curl_exec($curl);
+        $convertedText = str_replace(array("\r\n", "\r", "\n"), '<br />', $response);
+        $manage = json_decode($convertedText, true);
+        //var_dump(count($manage));
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        //print_r ($manage[Records]);
+        $records= $manage['Records'];
+        var_dump(count($records));
+        print_r ($records);
+        print_r ($manage['Records'][0]["userId"]);
+
+        curl_close($curl);
+        return $response ;
+    }
     
     //------------------------------------------------------------------------------------------------------------------    
 
