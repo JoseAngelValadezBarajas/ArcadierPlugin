@@ -33,9 +33,12 @@ class AtArcadierTool
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $result = curl_exec($curl);
+        $obj = json_decode($result);
+        $adminToken = $obj->access_token;
+        $userID = $obj->UserId;
         curl_close($curl);
 
-        return json_decode($result, true);
+        return array ($adminToken,$userID);
     }
 
     //-------------------------------------------------------------------------------------------------------------------
