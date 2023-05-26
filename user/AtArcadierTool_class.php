@@ -170,18 +170,21 @@ class AtArcadierTool
 
 
         $response = curl_exec($curl);
-        $convertedText = str_replace(array("\r\n", "\r", "\n"), '<br />', $response);
-        $manage = json_decode($convertedText, true);
-        //var_dump(count($manage));
+        //$convertedText = str_replace(array("\r\n", "\r", "\n"), '<br />', $response);
+        $manage = json_decode($response, true);
         echo "<br>";
         echo "<br>";
         echo "<br>";
-        //print_r ($manage[Records]);
         $records= $manage['Records'];
-        var_dump(count($records));
-        print_r ($records);
-        print_r ($manage['Records'][0]["userId"]);
+        //var_dump(count($records));
+        //print_r ($manage['Records'][0]["userId"]);
+        $data = $manage['Records'][0]["userId"];
 
+        $output = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+        }, $data);
+        echo "Test";
+        echo $output;
         curl_close($curl);
         return $response ;
     }
