@@ -24,21 +24,19 @@ class AtArcadierTool
 
         $url = $baseUrl . '/token';
         $body = 'grant_type=client_credentials&client_id='.$client_id.'&client_secret='.$client_secret.'&scope=admin';
+            $curl = curl_init();
 
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-        $result = curl_exec($curl);
-        $obj = json_decode($result);
-        $adminToken = $obj->access_token;
-        $userID = $obj->UserId;
-        curl_close($curl);
-
-        return array ($adminToken,$userID);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($curl);
+            $obj = json_decode($result);
+            $adminToken = $obj->access_token;
+            $userID = $obj->UserId;
+            curl_close($curl);
+            return array ($adminToken,$userID);
+        
     }
 
     //-------------------------------------------------------------------------------------------------------------------
@@ -155,38 +153,54 @@ class AtArcadierTool
         return $customFieldPrefix;
     }
 
-    function getCustomTable($table)
+    function getCustomTableWithoutAuth($table)
     {
         $marketplace = $_COOKIE["marketplace"];
         $protocol = $_COOKIE["protocol"];
         $baseUrl = $protocol . '://' . $marketplace;
         $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
         $urlTabl = $url .  $table . '/';
+        $auth=  'Authorization: Bearer '.$adminToken;
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $urlTabl);
         curl_setopt($curl, CURLOPT_HEADER, 0); 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-
         $response = curl_exec($curl);
-        //$convertedText = str_replace(array("\r\n", "\r", "\n"), '<br />', $response);
         $manage = json_decode($response, true);
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
         $records= $manage['Records'];
-        //var_dump(count($records));
-        //print_r ($manage['Records'][0]["userId"]);
         $data = $manage['Records'][0]["userId"];
-
         $output = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
             return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
         }, $data);
-        echo "Test";
-        echo $output;
         curl_close($curl);
         return $response ;
+    }
+
+    function getCustomTablePostManVer($table){
+        [$adminToken,$userID] = $this->subGetAdminToken();
+        $marketplace = $_COOKIE["marketplace"];
+        $protocol = $_COOKIE["protocol"];
+        $baseUrl = $protocol . '://' . $marketplace;
+        $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
+        $urlTabl = $url .  $table . '/';
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $urlTabl,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$adminToken
+        ),
+        ));
+        $response = curl_exec($curl);
+        return $response;
     }
     
     //------------------------------------------------------------------------------------------------------------------    
