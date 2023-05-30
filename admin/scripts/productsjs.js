@@ -1,22 +1,7 @@
 var user;
-  //var url="towaretail.sandbox"; //Ocuparemos en este caso ${window.location.host}
   var url=window.location.host;
-  var userSetting= {
-      "url": `${window.location.protocol}//${url}/api/v2/marketplaces`,
-      "method": "GET",
-      "timeout": 0,
-      "headers": {
-          "Content-Type": "application/json"
-      }
-  }
-  $.ajax(userSetting).done(function (response){
-      console.log(response.Owner.ID);
-      user=response.Owner.ID;
-  })
-
   var settings = {
       "url": `${window.location.protocol}//${url}/api/v2/items/`,
-      //"url": `${window.location.protocol}//${url}.arcadier.io/api/v2/admins/${user}/categories?pageSize=2&pageNumber=1`, /7categorias de productos
       "method": "GET",
       "timeout": 0,
       "headers": {
@@ -25,7 +10,6 @@ var user;
   };
   $.ajax(settings).done(function (response){
       response.Records.forEach (product  =>{
-          console.log(product)
           document.getElementById("productosinfo").innerHTML+=
           `<tr id=${product.ID}>
               <td>${product.MerchantDetail.DisplayName}</td>
