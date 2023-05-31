@@ -9,12 +9,3 @@ https://towaretail.sandbox.arcadier.io/admin/plugins/0db2bace-59df-4070-ad98-d0e
 https://towaretail.sandbox.arcadier.io/user/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/user.php
 https://towaretail.sandbox.arcadier.io/user/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/errors.php
 
-curl --location -g 'https://{{your-marketplace}}.arcadier.io/api/v2/admins/{{adminID}}/emails' \
---header 'Content-Type: application/json' \
---header 'Authorization: Bearer {{admintoken}}' \
---data-raw '{
-  "From": "admin_of@your-marketplace.com",
-  "To": "tanoo@arcadier.com",
-  "Body": "This is a very simple email. It is written in plain text and should be in one line. If you want to do a line break, you can write this.<br> Moreover, if you want do insert put inverted commas you can do it like \"this\".<br>This slash r represents a tab.",
-  "Subject": "API Email"
-}'
