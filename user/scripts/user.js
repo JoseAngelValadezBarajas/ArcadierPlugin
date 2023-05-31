@@ -1,28 +1,20 @@
-    function validateInfo()
-    {
-        var user = $('#inputUser').val();
-        var pass = $('#inputPass').val();
-        var loginarray= `{user:${user},pass:${pass}}`;
-        console.log(loginarray);
+function validateInfo() 
+{
+    var plugin="0db2bace-59df-4070-ad98-d0e2821b8851";
+    var user = $('#inputUser').val();
+    var pass = $('#inputPass').val();
+        var objData = {
+          user: user,
+          pass: pass,
+        };
         $.ajax({
-        data: {loginarray},
-        url: "https://towaretail.sandbox.arcadier.io/user/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/user.php",
-        type: "post",
-        success:  function (response) {
-            response = JSON.parse(response);
-            response.Records.forEach(element => {
-                if(element.userId ===user){
-                    if(element.pass ===pass){
-                        console.log("Entre");
-                    }
-                    else{
-                        console.log("Error en Usuario o Contraseña");
-                    }
-                }else{
-                    console.log("Error en Usuario o Contraseña");
-                }
-
-            });
-        }
-        });
-    }
+            url: `${window.location.protocol}//${window.location.host}/user/plugins/${plugin}/user.php`,
+            method: 'POST',
+            data: JSON.stringify(objData),
+            success: function(result) {
+                var respond = jQuery.parseJSON(result);
+                if(respond.access=="True"){
+                    window.location.replace(`${window.location.protocol}//${window.location.host}/user/plugins/${plugin}/customer.html?${user}`);
+                }     
+            }});
+}
