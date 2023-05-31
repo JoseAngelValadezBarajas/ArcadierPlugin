@@ -14,7 +14,7 @@ function validateInfo()
             success: function(result) {
                 var respond = jQuery.parseJSON(result);
                 if(respond.access=="True"){
-                    window.location.replace(`${window.location.protocol}//${window.location.host}/user/plugins/${plugin}/customer.html?${user}`);
+                    window.location.replace(`${window.location.protocol}//${window.location.host}/user/plugins/${plugin}/customer.html?user=${user}`);
                 }     
             }});
 }

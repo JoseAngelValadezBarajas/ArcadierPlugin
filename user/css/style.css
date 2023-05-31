@@ -126,3 +126,14 @@ body {
     color: #FFF;
     border: 0;
 }
+
+.exampleDiv1{
+	height: 200px !important;
+	width: 50% !important;
+}
+.exampleDiv2{
+	height: 200px !important;
+	width: 50% !important;
+}
+
+
