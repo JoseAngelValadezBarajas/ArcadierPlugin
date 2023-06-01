@@ -9,3 +9,4 @@ https://towaretail.sandbox.arcadier.io/admin/plugins/0db2bace-59df-4070-ad98-d0e
 https://towaretail.sandbox.arcadier.io/user/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/user.php
 https://towaretail.sandbox.arcadier.io/user/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/errors.php
 
+../scripts/marketplaceInfo.js
