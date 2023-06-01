@@ -126,3 +126,27 @@ body {
     color: #FFF;
     border: 0;
 }
+
+.Update{
+	font: inherit;
+    font-size: 1.25rem;
+    padding: unset;
+    width: 100%;
+    font-weight: 100;
+    background-color: #bbdd5d;
+    border-radius: 6px;
+    color: #FFF;
+    border: 0;
+}
+
+.delete{
+	font: inherit;
+    font-size: 1.25rem;
+    padding: unset;
+    width: 100%;
+    font-weight: 100;
+    background-color: #dd5d5d;
+    border-radius: 6px;
+    color: #FFF;
+    border: 0;
+}
