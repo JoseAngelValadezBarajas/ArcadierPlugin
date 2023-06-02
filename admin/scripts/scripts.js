@@ -8,8 +8,7 @@ function testPlugin(){
     this.currentUrl = window.location.href.toLowerCase();
     //To Load InfoHTML
     if(document.getElementById('infoTable')){
-        var customTable="users";
-        this.obtainTableWithAuth(customTable);
+        this.obtainTableWithAuth();
     }
 }
 
@@ -96,10 +95,10 @@ testPlugin.prototype.getCookie=function(name){
     }
 }
 
-testPlugin.prototype.obtainTableWithAuth=function(customTable){
+testPlugin.prototype.obtainTableWithAuth=function(){
     var tokenTable = this.getCookie('webapitoken');
     var url=window.location.host;
-    var customTableDir=customTable; 
+    var customTableDir="users"; 
     try{
         var settings = {
             "url": `${window.location.protocol}//${url}/api/v2/plugins/${packageId.value}/custom-tables/${customTableDir}/`, 
