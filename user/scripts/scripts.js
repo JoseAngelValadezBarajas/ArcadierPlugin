@@ -8,7 +8,7 @@ function testPlugin(){
     this.currentUrl = window.location.href.toLowerCase();
     //To Load customerHTML
     if(document.getElementById('customerSpace')){
-        this.obtainTableWithAuth();
+        this.customerdashboard();
     }
 
 
