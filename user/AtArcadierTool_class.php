@@ -1,7 +1,7 @@
 <?php
 //                                                          //AUTHOR: Towa (MAC-Manuel Acosta)
-//                                                          //CO-AUTHOR: 
-//                                                          //DATE: December 23, 2020
+//                                                          //CO-AUTHOR: Towa (Valadez Angel)
+//                                                          //DATE: June 2023
 
 //======================================================================================================================
 class AtArcadierTool
