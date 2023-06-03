@@ -213,12 +213,8 @@ class AtArcadierTool
     }
 
     function obtainAdmintoken(){
-        try{
-            [$adminToken,$userID] = $this->subGetAdminToken();
-            return array ($adminToken,$userID);
-        }catch(Exception $e){
-            return $e->getMessage();
-        }
+        [$adminToken,$userID] = $this->subGetAdminToken();
+        return array ($adminToken,$userID);
     }
     
     //------------------------------------------------------------------------------------------------------------------    
