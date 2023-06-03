@@ -1,7 +1,7 @@
 <?php
 //                                                          //AUTHOR: Towa (MAC-Manuel Acosta)
-//                                                          //CO-AUTHOR: 
-//                                                          //DATE: December 23, 2020
+//                                                          //CO-AUTHOR: Towa (Valadez Angel)
+//                                                          //DATE: June 2023
 
 //======================================================================================================================
 class AtArcadierTool
@@ -155,57 +155,70 @@ class AtArcadierTool
 
     function getCustomTableWithoutAuth($table)
     {
-        $marketplace = $_COOKIE["marketplace"];
-        $protocol = $_COOKIE["protocol"];
-        $baseUrl = $protocol . '://' . $marketplace;
-        $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
-        $urlTabl = $url .  $table . '/';
-        $auth=  'Authorization: Bearer '.$adminToken;
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, $urlTabl);
-        curl_setopt($curl, CURLOPT_HEADER, 0); 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($curl);
-        $manage = json_decode($response, true);
-        $records= $manage['Records'];
-        $data = $manage['Records'][0]["userId"];
-        $output = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
-        }, $data);
-        curl_close($curl);
-        return $response ;
+        try{
+            $marketplace = $_COOKIE["marketplace"];
+            $protocol = $_COOKIE["protocol"];
+            $baseUrl = $protocol . '://' . $marketplace;
+            $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
+            $urlTabl = $url .  $table . '/';
+            $auth=  'Authorization: Bearer '.$adminToken;
+            $curl = curl_init();
+    
+            curl_setopt($curl, CURLOPT_URL, $urlTabl);
+            curl_setopt($curl, CURLOPT_HEADER, 0); 
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    
+            $response = curl_exec($curl);
+            $manage = json_decode($response, true);
+            $records= $manage['Records'];
+            $data = $manage['Records'][0]["userId"];
+            $output = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+                return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+            }, $data);
+            curl_close($curl);
+            return $response ;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
 
     function getCustomTablePostManVer($table){
-        [$adminToken,$userID] = $this->subGetAdminToken();
-        $marketplace = $_COOKIE["marketplace"];
-        $protocol = $_COOKIE["protocol"];
-        $baseUrl = $protocol . '://' . $marketplace;
-        $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
-        $urlTabl = $url .  $table . '/';
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => $urlTabl,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.$adminToken
-        ),
-        ));
-        $response = curl_exec($curl);
-        return $response;
+        try{
+            [$adminToken,$userID] = $this->subGetAdminToken();
+            $marketplace = $_COOKIE["marketplace"];
+            $protocol = $_COOKIE["protocol"];
+            $baseUrl = $protocol . '://' . $marketplace;
+            $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
+            $urlTabl = $url .  $table . '/';
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => $urlTabl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$adminToken
+            ),
+            ));
+            $response = curl_exec($curl);
+            return $response;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+
     }
 
     function obtainAdmintoken(){
-        [$adminToken,$userID] = $this->subGetAdminToken();
-        return array ($adminToken,$userID);
+        try{
+            [$adminToken,$userID] = $this->subGetAdminToken();
+            return array ($adminToken,$userID);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
     
     //------------------------------------------------------------------------------------------------------------------    
