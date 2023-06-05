@@ -1,4 +1,5 @@
 //Constructor
+
 var vbGateway =document.currentScript.src;
 function testPlugin(){
     var re = /([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})/i;
@@ -16,10 +17,12 @@ function testPlugin(){
     }
 
 }
+
 //End of Constructor
 
 
 //InfoHtmlFunctions
+
 testPlugin.prototype.sendNewUser= function (){
     var tokenTable = this.getCookie('webapitoken');
     var customTableDir="users";
@@ -41,9 +44,10 @@ testPlugin.prototype.sendNewUser= function (){
         };
         $.ajax(settings).done(function(response) { 
             document.getElementById(`toast-container`).style.display="inline";
+            location.reload();
         }); 
-    location.reload();
 }
+
 testPlugin.prototype.updateUser= function(userId){
     var tokenTable = this.getCookie('webapitoken');
     var customTableDir="users";
@@ -64,9 +68,10 @@ testPlugin.prototype.updateUser= function(userId){
     };
     $.ajax(settings).done(function (response) {
         document.getElementById(`toast-container`).style.display="inline";
+        location.reload();
       }); 
-    location.reload();
 }
+
 testPlugin.prototype.deleteUser=function(userId){
     var tokenTable = this.getCookie('webapitoken');
     var customTableDir="users";
@@ -89,6 +94,7 @@ testPlugin.prototype.deleteUser=function(userId){
       }
       location.reload();
 }
+
 testPlugin.prototype.getCookie=function(name){
     var value = '; ' + document.cookie;
     var parts = value.split('; ' + name + '=');
@@ -96,6 +102,7 @@ testPlugin.prototype.getCookie=function(name){
         return parts.pop().split(';').shift();
     }
 }
+
 testPlugin.prototype.obtainTableWithAuth=function(){
     var tokenTable = this.getCookie('webapitoken');
     var customTableDir="users"; 
@@ -128,9 +135,11 @@ testPlugin.prototype.obtainTableWithAuth=function(){
         console.log(e)
     }
 }
+
 //End InfoHtmlFunctions
 
 //ConfigsHtmlFunctions
+
 testPlugin.prototype.sendUserConfig=function(){ 
     var tokenTable = this.getCookie('webapitoken');
     var customTableDir="configs";
@@ -155,10 +164,12 @@ testPlugin.prototype.sendUserConfig=function(){
         });
     location.reload(); 
 }
+
 //End ConfigsHtmlFunctions
 
 //E-Mail functions
-testPlugin.prototype.SendEmail=function(){
+
+testPlugin.prototype.sendEmail=function(){
     var token,userId,id0,name0,price0,id1,name1,price1;
     var objData = {data: "plugin",};
     $.ajax({
@@ -210,9 +221,11 @@ testPlugin.prototype.SendEmail=function(){
             })
         }});
 }
+
 //End E-Mail functions
 
 //Products functions
+
 testPlugin.prototype.getProducts=function(){
     var settings = {
         "url": `${window.location.protocol}//${window.location.host}/api/v2/items/`,
@@ -272,9 +285,11 @@ testPlugin.prototype.getProducts=function(){
         else element.addClass("desc");
       }
 }
+
 //End Products fucntions
 
 //Load Constructor
+
 var myPlugin = undefined;
 $(document).ready(() => {
     myPlugin = new testPlugin();
