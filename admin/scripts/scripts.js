@@ -40,7 +40,7 @@ testPlugin.prototype.sendNewUser= function (){
               })
         };
         $.ajax(settings).done(function(response) { 
-            $("#toast-container").fadeIn("slow");
+            document.getElementById(`toast-container`).style.display="inline";
         }); 
     location.reload();
 }
@@ -63,7 +63,7 @@ testPlugin.prototype.updateUser= function(userId){
           }),
     };
     $.ajax(settings).done(function (response) {
-        $("#toast-container").fadeIn("slow");
+        document.getElementById(`toast-container`).style.display="inline";
       }); 
     location.reload();
 }
@@ -82,7 +82,7 @@ testPlugin.prototype.deleteUser=function(userId){
     
         };
         $.ajax(settings).done(function (response) {
-            $("#toast-container").fadeIn("slow");
+            document.getElementById(`toast-container`).style.display="inline";
           }); 
       } else {
         
@@ -151,7 +151,7 @@ testPlugin.prototype.sendUserConfig=function(){
               })
         };
         $.ajax(settings).done(function(response) { 
-            $("#toast-container").fadeIn("slow");
+            document.getElementById(`toast-container`).style.display="inline";
         });
     location.reload(); 
 }
@@ -204,7 +204,7 @@ testPlugin.prototype.SendEmail=function(){
                         })
                     };
                     $.ajax(settings).done(function(response) { 
-                        $("#toast-container").fadeIn("slow");
+                        document.getElementById(`toast-container`).style.display="inline";
                         location.reload();
                     }); 
             })
@@ -281,6 +281,5 @@ $(document).ready(() => {
 });
 
 
-//<div id="toast-container" class="toast-top-right" aria-live="polite" role="alert"><div class="toast toast-success" style=""><div class="toast-message">Successfully set the package unverified.</div></div></div>
 
 
