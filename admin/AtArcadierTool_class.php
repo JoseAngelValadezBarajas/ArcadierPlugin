@@ -14,28 +14,32 @@ class AtArcadierTool
     //-------------------------------------------------------------------------------------------------------------------
     function subGetAdminToken() 
     {
-        $marketplace = $_COOKIE["marketplace"];
-        $protocol = $_COOKIE["protocol"];
-
-        $baseUrl = $protocol . '://' . $marketplace;
-
-        $client_id = 'X2BRHz9VGnJqwnc9IIdkadvReJQOvgHBoM0Z9p3M';
-        $client_secret = 'Tn4oefIwZZ_YZivuWSEwV0wusu2A1BlrZSPE5oIVADNNkxT14Bb';
-
-        $url = $baseUrl . '/token';
-        $body = 'grant_type=client_credentials&client_id='.$client_id.'&client_secret='.$client_secret.'&scope=admin';
-            $curl = curl_init();
-
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($curl);
-            $obj = json_decode($result);
-            $adminToken = $obj->access_token;
-            $userID = $obj->UserId;
-            curl_close($curl);
-            return array ($adminToken,$userID);
+        try{
+            $marketplace = $_COOKIE["marketplace"];
+            $protocol = $_COOKIE["protocol"];
+    
+            $baseUrl = $protocol . '://' . $marketplace;
+    
+            $client_id = 'X2BRHz9VGnJqwnc9IIdkadvReJQOvgHBoM0Z9p3M';
+            $client_secret = 'Tn4oefIwZZ_YZivuWSEwV0wusu2A1BlrZSPE5oIVADNNkxT14Bb';
+    
+            $url = $baseUrl . '/token';
+            $body = 'grant_type=client_credentials&client_id='.$client_id.'&client_secret='.$client_secret.'&scope=admin';
+                $curl = curl_init();
+    
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($curl);
+                $obj = json_decode($result);
+                $adminToken = $obj->access_token;
+                $userID = $obj->UserId;
+                curl_close($curl);
+                return array ($adminToken,$userID);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
         
     }
 
@@ -213,8 +217,12 @@ class AtArcadierTool
     }
 
     function obtainAdmintoken(){
-        [$adminToken,$userID] = $this->subGetAdminToken();
-        return array ($adminToken,$userID);
+        try{
+            [$adminToken,$userID] = $this->subGetAdminToken();
+            return array ($adminToken,$userID);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
     
     //------------------------------------------------------------------------------------------------------------------    

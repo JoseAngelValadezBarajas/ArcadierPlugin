@@ -14,28 +14,32 @@ class AtArcadierTool
     //-------------------------------------------------------------------------------------------------------------------
     function subGetAdminToken() 
     {
-        $marketplace = $_COOKIE["marketplace"];
-        $protocol = $_COOKIE["protocol"];
-
-        $baseUrl = $protocol . '://' . $marketplace;
-
-        $client_id = 'X2BRHz9VGnJqwnc9IIdkadvReJQOvgHBoM0Z9p3M';
-        $client_secret = 'Tn4oefIwZZ_YZivuWSEwV0wusu2A1BlrZSPE5oIVADNNkxT14Bb';
-
-        $url = $baseUrl . '/token';
-        $body = 'grant_type=client_credentials&client_id='.$client_id.'&client_secret='.$client_secret.'&scope=admin';
-            $curl = curl_init();
-
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($curl);
-            $obj = json_decode($result);
-            $adminToken = $obj->access_token;
-            $userID = $obj->UserId;
-            curl_close($curl);
-            return array ($adminToken,$userID);
+        try{
+            $marketplace = $_COOKIE["marketplace"];
+            $protocol = $_COOKIE["protocol"];
+    
+            $baseUrl = $protocol . '://' . $marketplace;
+    
+            $client_id = 'X2BRHz9VGnJqwnc9IIdkadvReJQOvgHBoM0Z9p3M';
+            $client_secret = 'Tn4oefIwZZ_YZivuWSEwV0wusu2A1BlrZSPE5oIVADNNkxT14Bb';
+    
+            $url = $baseUrl . '/token';
+            $body = 'grant_type=client_credentials&client_id='.$client_id.'&client_secret='.$client_secret.'&scope=admin';
+                $curl = curl_init();
+    
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($curl);
+                $obj = json_decode($result);
+                $adminToken = $obj->access_token;
+                $userID = $obj->UserId;
+                curl_close($curl);
+                return array ($adminToken,$userID);
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
         
     }
 
@@ -179,28 +183,32 @@ class AtArcadierTool
     }
 
     function getCustomTablePostManVer($table){
-        [$adminToken,$userID] = $this->subGetAdminToken();
-        $marketplace = $_COOKIE["marketplace"];
-        $protocol = $_COOKIE["protocol"];
-        $baseUrl = $protocol . '://' . $marketplace;
-        $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
-        $urlTabl = $url .  $table . '/';
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => $urlTabl,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.$adminToken
-        ),
-        ));
-        $response = curl_exec($curl);
-        return $response;
+        try{
+            [$adminToken,$userID] = $this->subGetAdminToken();
+            $marketplace = $_COOKIE["marketplace"];
+            $protocol = $_COOKIE["protocol"];
+            $baseUrl = $protocol . '://' . $marketplace;
+            $url = $baseUrl . '/api/v2/plugins/0db2bace-59df-4070-ad98-d0e2821b8851/custom-tables/';
+            $urlTabl = $url .  $table . '/';
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => $urlTabl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.$adminToken
+            ),
+            ));
+            $response = curl_exec($curl);
+            return $response;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
     
     //------------------------------------------------------------------------------------------------------------------    
